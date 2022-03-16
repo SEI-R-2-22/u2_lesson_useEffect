@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Surprise from './Surprise'
-import '../styles/App.css'
+import Surprise from '../other/Surprise'
+import '../App.css'
 
 const Counter = () => {
   const [count, updateCount] = useState(0)
@@ -15,7 +15,7 @@ const Counter = () => {
 
   return (
     <div className="counter">
-      {count === 20 ? (
+      {count === 25 ? (
         <Surprise />
       ) : (
         <div>

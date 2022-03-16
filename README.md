@@ -12,23 +12,11 @@ In this lesson we'll be covering the lifecycle of React components. React compon
 - `npm i` to install our dependencies
 - `npm start` to spin up our app
 
-## React Component Lifecycle
-
-These methods happen automatically (because we are extending the React.Component class which has them already defined). - but you can call them to modify them.
-
-The lifecycle falls into three main pieces: When the component is being created (which is called **mounting**), when the component is being **updated**, and when the component is being removed from the DOM (which is called **unmounting**).
-
-These methods are called at specific points in the rendering process. You can use these methods to perform actions based on what's happening on the DOM.
-
-- `componentDidMount`, for example, is called immediately _after_ a component is rendered to the DOM.
-
 ## The React Component Lifecycle
 
-React components follow a very basic lifecycle starting with when they get `mounted` to the DOM or browser to when the component `renders` onto the screen. Components follow a strict set of rules or order of operations for how the mounting is done.
+React components follow a very basic lifecycle starting with when they get `mounted` to the virtual DOM to when the component `renders` onto the screen. Components follow a strict set of rules or order of operations for how the mounting is done.
 
-When using *class components*, the React library has built-in Lifecycle methods available to us.  These are special functions that give our components a specific set of instructions on what to do at a given time. Because we are using *functional components*, we'll need to use Hooks to do this. More on that later...
-
-The lifecycle falls into three main pieces: When the component is being created (which is called **mounting**), when the component is being **updated**, and when the component is being removed from the DOM (which is called **unmounting**).
+When using *class components*, the React library had built-in Lifecycle methods available to us.  These are special functions that give our components a specific set of instructions on what to do at a given time. Because we are using *functional components*, we'll need to use a hook to do this. More on that later...
 
 Lifecycle events fall into three broad categories:
 
@@ -69,105 +57,25 @@ The "observable" is something we want to keep track of, typically some sort of s
 
 ## Mounting a Component
 
-Let's import `useEffect` at the top of `components/Counter.jsx`...
+Let's import `useEffect` at the top of `components/Counter.jsx` right next to our already imported `useState`...
 
 ```jsx
 import { useState, useEffect } from 'react'
-import Surprise from './Surprise'
-
-const Counter = () => {
-  const [count, updateCount] = useState(0)
-
-  const incrementCount = () => {
-    updateCount(count + 1)
-  }
-
-  const decrementCount = () => {
-    if (count > 0) updateCount(count - 1)
-  }
-
-  return (
-    <div style={{height: '100vh'}}>
-      {count === 10 ? <Surprise /> : 
-      <div>
-        <h3 style={{ fontSize: '4rem' }}>{count}</h3>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={incrementCount}>
-            DO MORE
-          </button>
-        </div>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={decrementCount}>
-            DO LESS
-          </button>
-        </div>
-      </div>
-      }
-      <div>
-        <button style={{ fontSize: '4rem' }} onClick={() => updateCount(0)}>
-          RESET
-        </button>
-      </div>
-    </div>
-  )
-}
-
-export default Counter
 ```
 
-![Bye](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi2.wp.com%2Fgifrific.com%2Fwp-content%2Fuploads%2F2012%2F07%2FJerry-Seinfeld-No-Thanks-and-Leave.gif%3Fresize%3D236%252C177%26ssl%3D1&f=1&nofb=1)
-
-Wait, come back! Next, let's set up our effect:
+Next, let's set it up right below our `useState`:
 
 ```jsx
-import { useState, useEffect } from 'react'
-import Surprise from './Surprise'
-
-const Counter = () => {
-  const [count, updateCount] = useState(0)
+...
 
   useEffect(() => {
-    console.log('Mounted')
+    console.log('Mounted the Counter!')
   }, [])
 
-  const incrementCount = () => {
-    updateCount(count + 1)
-  }
-
-  const decrementCount = () => {
-    if (count > 0) updateCount(count - 1)
-  }
-
-  return (
-      <div style={{height: '100vh'}}>
-      {count === 10 ? <Surprise /> : 
-      <div>
-        <h3 style={{ fontSize: '4rem' }}>{count}</h3>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={incrementCount}>
-            DO MORE
-          </button>
-        </div>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={decrementCount}>
-            DO LESS
-          </button>
-        </div>
-      </div>
-      }
-      <div>
-        <button style={{ fontSize: '4rem' }} onClick={() => updateCount(0)}>
-          RESET
-        </button>
-      </div>
-    </div>
-  )
-}
-
-export default Counter
+...
 ```
 
-Open your browser console and refresh the page, you should see `Mounted` printed to the console. This is the equivalent of `componentDidMount`.  Now click the button a few times and notice that the page doesn't re-render again. Our useEffect fired *on mount*...
+Open your browser console and refresh the page, you should see `Mounted the Counter!` printed to the console. Now click the button a few times and notice that the page doesn't re-render again. Our useEffect fired *on mount*...
 
 ![Relief](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F3o7TKuylrX8kT7XhVS%2Fgiphy.gif&f=1&nofb=1)
 
@@ -178,56 +86,16 @@ With `useEffect`, the second argument it receives is an array of "observables" o
 Let's add `count` (from our useState) to the dependency array:
 
 ```jsx
-import { useState, useEffect } from 'react'
-import Surprise from './Surprise'
-
-const Counter = () => {
-  const [count, updateCount] = useState(0)
+...
 
   useEffect(() => {
-    console.log('Mounted')
+    console.log('Mounted the Counter!')
   }, [count])
 
-  const incrementCount = () => {
-    updateCount(count + 1)
-  }
-
-  const decrementCount = () => {
-    if (count > 0) updateCount(count - 1)
-  }
-
-  return (
-      <div style={{height: '100vh'}}>
-      {count === 10 ? <Surprise /> : 
-      <div>
-        <h3 style={{ fontSize: '4rem' }}>{count}</h3>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={incrementCount}>
-            DO MORE
-          </button>
-        </div>
-        <div>
-          <button style={{ fontSize: '4rem' }} onClick={decrementCount}>
-            DO LESS
-          </button>
-        </div>
-      </div>
-      }
-      <div>
-        <button style={{ fontSize: '4rem' }} onClick={() => updateCount(0)}>
-          RESET
-        </button>
-      </div>
-    </div>
-  )
-}
-
-export default Counter
+...
 ```
 
 Refresh your browsers and click the button **2** times. Now, every time the `count` state updates, a re-render occurs and our useEffect is fired. Notice how many times our 'mounted' console log goes off?
-
-This is exactly how `componentDidUpdate` works.
 
 ![Stop the Show!](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2FRGXKL7Meb3YvS%2Fgiphy.gif&f=1&nofb=1)
 
@@ -236,11 +104,11 @@ This is exactly how `componentDidUpdate` works.
 ## Cleanups
 
 Reset your counters back to `0` using the reset button.
-Click the button `20` times. You should see a new component being rendered on the page and a new message printed to the console.
+Click the button `25` times. You should see a new component being rendered on the page and a new message printed to the console.
 
 Now click the **Reset** button.
 
-You should see `Unmounted => Clean up any side effects` printed to the console.
+You should see `Unmounted the Surprise => Cleaned up any side effects` printed to the console.
 
 The `return ()=>{}` runs a function to `clean up` side effects of our component. This is really useful for clearing timers or terminating realtime connections.
 

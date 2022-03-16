@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 
 const Surprise = () => {
   useEffect(() => {
-    console.log('Mounted the surprise')
+    console.log('Mounted the Surprise!')
     return () => {
-      console.log('Unmounted => Clean up any side effects')
+      console.log('Unmounted the Surprise => Cleaned up any side effects')
     }
   }, [])
 
